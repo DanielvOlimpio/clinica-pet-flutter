@@ -1,0 +1,28 @@
+# Blueprint do Render — Clínica Pet API
+#
+# Cria automaticamente no Render:
+#   1. O Web Service da API (Node.js, diretório api/)
+#   2. O banco PostgreSQL gerenciado
+#   3. A variável DATABASE_URL do banco já conectada ao serviço
+#
+# Como usar: no painel do Render -> New -> Blueprint -> selecione este
+# repositório -> Apply. Depois teste https://<servico>.onrender.com/health
+
+services:
+  - type: web
+    name: clinica-pet-api
+    runtime: node
+    rootDir: api
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true # cada push no GitHub gera deploy automático
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+
+databases:
+  - name: clinica-pet-db
+    databaseName: clinica_pet
+    user: clinica_pet
+    plan: free

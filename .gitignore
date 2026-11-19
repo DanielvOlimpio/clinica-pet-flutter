@@ -46,3 +46,9 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# API (Node.js + Express)
+api/node_modules/
+api/.env
+api/.pgdata*/
+api/*.log
