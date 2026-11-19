@@ -5,6 +5,11 @@ import '../models/pet.dart';
 
 /// Item da lista: cada pet é exibido com **Card + ListTile**, ícone do tema
 /// e o valor monetário formatado no padrão brasileiro pelo pacote `intl`.
+///
+/// Indicador visual Offline-first (ícone ao lado do valor):
+/// - `Icons.cloud_done` (verde): registro **sincronizado** com a API.
+/// - `Icons.cloud_upload` (laranja): registro **pendente** salvo apenas no
+///   dispositivo, aguardando a sincronização manual.
 class TilePet extends StatelessWidget {
   final Pet pet;
   final NumberFormat formatador;
@@ -42,13 +47,33 @@ class TilePet extends StatelessWidget {
         ),
         trailing: FittedBox(
           fit: BoxFit.scaleDown,
-          child: Text(
-            formatador.format(pet.valor),
-            style: TextStyle(
-              color: cores.primary,
-              fontWeight: FontWeight.w700,
-              fontSize: 17,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Tooltip(
+                message: pet.sincronizado
+                    ? 'Sincronizado com a API'
+                    : 'Pendente: salvo no dispositivo',
+                child: Icon(
+                  pet.sincronizado
+                      ? Icons.cloud_done
+                      : Icons.cloud_upload_outlined,
+                  size: 18,
+                  color: pet.sincronizado
+                      ? Colors.green.shade700
+                      : Colors.orange.shade800,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                formatador.format(pet.valor),
+                style: TextStyle(
+                  color: cores.primary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                ),
+              ),
+            ],
           ),
         ),
       ),

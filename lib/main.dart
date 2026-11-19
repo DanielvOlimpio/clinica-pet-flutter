@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'repository/pet_repository.dart';
 import 'telas/lista_pets.dart';
 
 /// Aplicação remota de **Clínica Pet**.
@@ -12,7 +13,10 @@ void main() {
 }
 
 class ClinicaPetApp extends StatelessWidget {
-  const ClinicaPetApp({super.key});
+  /// Repositório injetado (permite fake nos testes automatizados).
+  final PetRepository? repository;
+
+  const ClinicaPetApp({super.key, this.repository});
 
   /// Cor principal do tema (verde-azulado da clínica).
   static const Color corPrimaria = Color(0xFF00897B);
@@ -41,7 +45,7 @@ class ClinicaPetApp extends StatelessWidget {
           border: OutlineInputBorder(),
         ),
       ),
-      home: const ListaPets(),
+      home: ListaPets(repository: repository),
     );
   }
 }
